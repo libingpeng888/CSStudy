@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace WinFormsApp1
+namespace CSStudy
 {
     public partial class CustomerForm : Form
     {

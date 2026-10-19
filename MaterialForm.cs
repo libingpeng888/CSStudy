@@ -1,15 +1,8 @@
-using Microsoft.Data.SqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WinFormsApp1
+namespace CSStudy
 {
     public partial class MaterialForm : Form
     {
@@ -23,23 +16,13 @@ namespace WinFormsApp1
         }
 
         #region 查询：从数据库读取全部物料
-        void LoadData(string where = "")
+        void LoadData()
         {
-            using (SqlConnection conn = Db.Open())
-            {
-                string sql = "SELECT uGUID,mNo,mName,mSpec,mUnit,mPrice,mCategory,mRemark FROM Material ";
-                if (!string.IsNullOrEmpty(where))
-                    sql += where;
+            dgvMaterial.DataSource = MaterialRepository.GetAll();
 
-                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgvMaterial.DataSource = dt;
-
-                //隐藏uGUID主键列
-                if (dgvMaterial.Columns["uGUID"] != null)
-                    dgvMaterial.Columns["uGUID"].Visible = false;
-            }
+            //隐藏uGUID主键列
+            if (dgvMaterial.Columns["uGUID"] != null)
+                dgvMaterial.Columns["uGUID"].Visible = false;
         }
         #endregion
 
@@ -52,8 +35,9 @@ namespace WinFormsApp1
                 LoadData();
                 return;
             }
-            string where = $" WHERE mNo LIKE '%{key}%' OR mName LIKE '%{key}%'";
-            LoadData(where);
+            dgvMaterial.DataSource = MaterialRepository.Search(key);
+            if (dgvMaterial.Columns["uGUID"] != null)
+                dgvMaterial.Columns["uGUID"].Visible = false;
         }
         #endregion
 
@@ -91,40 +75,17 @@ namespace WinFormsApp1
             lstResult.Items.Add($"物料分类:{mCategory}");
             lstResult.Items.Add($"备注:{mRemark}");
 
-            using (SqlConnection conn = Db.Open())
+            if (_editGuid == Guid.Empty)
             {
-                SqlCommand cmd;
-                if (_editGuid == Guid.Empty)
-                {
-                    //新增，uGUID由数据库DEFAULT NEWID()生成
-                    string insertSql = @"INSERT INTO Material(mNo,mName,mSpec,mUnit,mPrice,mCategory,mRemark,CreateUser)
-                    VALUES(@mNo,@mName,@mSpec,@mUnit,@mPrice,@mCategory,@mRemark,@CreateUser)";
-                    cmd = new SqlCommand(insertSql, conn);
-                    cmd.Parameters.AddWithValue("@CreateUser", CurrentUser);
-                }
-                else
-                {
-                    //修改
-                    string updateSql = @"UPDATE Material SET mNo=@mNo,mName=@mName,mSpec=@mSpec,mUnit=@mUnit,
-                    mPrice=@mPrice,mCategory=@mCategory,mRemark=@mRemark,UpdateUser=@UpdateUser,UpdateTime=GETDATE()
-                    WHERE uGUID=@uGUID";
-                    cmd = new SqlCommand(updateSql, conn);
-                    cmd.Parameters.AddWithValue("@uGUID", _editGuid);
-                    cmd.Parameters.AddWithValue("@UpdateUser", CurrentUser);
-                }
-
-                cmd.Parameters.AddWithValue("@mNo", mNo);
-                cmd.Parameters.AddWithValue("@mName", mName);
-                cmd.Parameters.AddWithValue("@mSpec", mSpec);
-                cmd.Parameters.AddWithValue("@mUnit", mUnit);
-                cmd.Parameters.AddWithValue("@mPrice", mPrice);
-                cmd.Parameters.AddWithValue("@mCategory", mCategory);
-                cmd.Parameters.AddWithValue("@mRemark", mRemark);
-
-                cmd.ExecuteNonQuery();
-                ClearInput();
-                LoadData();
+                MaterialRepository.Insert(mNo, mName, mSpec, mUnit, mPrice, mCategory, mRemark, CurrentUser);
             }
+            else
+            {
+                MaterialRepository.Update(_editGuid, mNo, mName, mSpec, mUnit, mPrice, mCategory, mRemark, CurrentUser);
+            }
+
+            ClearInput();
+            LoadData();
         }
         #endregion
 
@@ -160,16 +121,10 @@ namespace WinFormsApp1
             if (MessageBox.Show("确认删除该物料？", "确认", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
-            using (SqlConnection conn = Db.Open())
-            {
-                string delSql = "DELETE FROM Material WHERE uGUID=@uGUID";
-                SqlCommand cmd = new SqlCommand(delSql, conn);
-                cmd.Parameters.AddWithValue("@uGUID", _editGuid);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("删除完成");
-                ClearInput();
-                LoadData();
-            }
+            MaterialRepository.Delete(_editGuid);
+            MessageBox.Show("删除完成");
+            ClearInput();
+            LoadData();
         }
         #endregion
 

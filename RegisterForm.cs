@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace WinFormsApp1
+namespace CSStudy
 {
     public partial class RegisterForm : Form
     {

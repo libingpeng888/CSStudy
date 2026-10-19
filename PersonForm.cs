@@ -1,7 +1,7 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
 
-namespace WinFormsApp1
+namespace CSStudy
 {
     public partial class PersonForm : Form
     {

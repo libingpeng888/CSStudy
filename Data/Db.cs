@@ -1,6 +1,6 @@
 using Microsoft.Data.SqlClient;
 
-namespace WinFormsApp1
+namespace CSStudy
 {
     /// <summary>
     /// 数据库连接的唯一入口：整个项目只在这里写一次连接字符串。

@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace WinFormsApp1
+namespace CSStudy
 {
     /// <summary>
     /// 密码哈希工具（PBKDF2-SHA256，.NET 自带，无需第三方包）。

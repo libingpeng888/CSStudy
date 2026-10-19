@@ -1,4 +1,4 @@
-namespace WinFormsApp1
+namespace CSStudy
 {
     internal static class Program
     {

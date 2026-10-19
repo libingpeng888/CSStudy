@@ -1,6 +1,6 @@
 using Microsoft.Data.SqlClient;
 
-namespace WinFormsApp1
+namespace CSStudy
 {
     /// <summary>
     /// SysUser 表的数据访问：登录验证、注册、查重。
