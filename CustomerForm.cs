@@ -1,14 +1,6 @@
-using Microsoft.Data.SqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace CSStudy
 {
@@ -22,23 +14,13 @@ namespace CSStudy
             LoadData();
         }
 
-        void LoadData(string where = "")
+        void LoadData()
         {
-            using (SqlConnection conn = Db.Open())
-            {
-                string sql = "SELECT uGUID,cNo,cName,cContact,cPhone,cAddress,cRemark FROM Customer ";
-                if (!string.IsNullOrEmpty(where))
-                    sql += where;
+            dgvCustomer.DataSource = CustomerRepository.GetAll();
 
-                SqlDataAdapter da = new SqlDataAdapter(sql, conn);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                dgvCustomer.DataSource = dt;
-
-                //隐藏uGUID主键列
-                if (dgvCustomer.Columns["uGUID"] != null)
-                    dgvCustomer.Columns["uGUID"].Visible = false;
-            }
+            //隐藏uGUID主键列
+            if (dgvCustomer.Columns["uGUID"] != null)
+                dgvCustomer.Columns["uGUID"].Visible = false;
         }
 
         private void btnQuery_Click(object sender, EventArgs e)
@@ -49,8 +31,9 @@ namespace CSStudy
                 LoadData();
                 return;
             }
-            string where = $" WHERE cNo LIKE '%{key}%' OR cName LIKE '%{key}%'";
-            LoadData(where);
+            dgvCustomer.DataSource = CustomerRepository.Search(key);
+            if (dgvCustomer.Columns["uGUID"] != null)
+                dgvCustomer.Columns["uGUID"].Visible = false;
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -82,40 +65,17 @@ namespace CSStudy
             lstResult.Items.Add($"地址:{addr}");
             lstResult.Items.Add($"备注:{remark}");
 
-            using (SqlConnection conn = Db.Open())
+            if (_editGuid == Guid.Empty)
             {
-                SqlCommand cmd;
-                if (_editGuid == Guid.Empty)
-                {
-                    //新增，uGUID由数据库DEFAULT NEWID()生成
-                    string insertSql = @"INSERT INTO Customer(cNo,cName,cContact,cPhone,cAddress,cRemark,CreateUser)
-                    VALUES(@cNo,@cName,@cContact,@cPhone,@cAddress,@cRemark,@CreateUser)";
-                    cmd = new SqlCommand(insertSql, conn);
-                    cmd.Parameters.AddWithValue("@CreateUser", CurrentUser);
-                }
-                else
-                {
-                    //修改
-                    string updateSql = @"UPDATE Customer SET cNo=@cNo,cName=@cName,cContact=@cContact,
-                    cPhone=@cPhone,cAddress=@cAddress,cRemark=@cRemark,UpdateUser=@UpdateUser, UpdateTime=GETDATE() WHERE uGUID=@uGUID";
-                    cmd = new SqlCommand(updateSql, conn);
-                    cmd.Parameters.AddWithValue("@uGUID", _editGuid);
-                    cmd.Parameters.AddWithValue("@UpdateUser", CurrentUser);
-                }
-                cmd.Parameters.AddWithValue("@cNo", cno);
-                cmd.Parameters.AddWithValue("@cName", cname);
-                cmd.Parameters.AddWithValue("@cContact", contact);
-                cmd.Parameters.AddWithValue("@cPhone", phone);
-                cmd.Parameters.AddWithValue("@cAddress", addr);
-                cmd.Parameters.AddWithValue("@cRemark", remark);
-
-
-                cmd.ExecuteNonQuery();
-                //MessageBox.Show("保存成功");
-                ClearInput();
-                LoadData();
+                CustomerRepository.Insert(cno, cname, contact, phone, addr, remark, CurrentUser);
+            }
+            else
+            {
+                CustomerRepository.Update(_editGuid, cno, cname, contact, phone, addr, remark, CurrentUser);
             }
 
+            ClearInput();
+            LoadData();
         }
 
         //清空输入框
@@ -145,16 +105,10 @@ namespace CSStudy
             if (MessageBox.Show("确认删除该客户？", "确认", MessageBoxButtons.YesNo) == DialogResult.No)
                 return;
 
-            using (SqlConnection conn = Db.Open())
-            {
-                string delSql = "DELETE FROM Customer WHERE uGUID=@uGUID";
-                SqlCommand cmd = new SqlCommand(delSql, conn);
-                cmd.Parameters.AddWithValue("@uGUID", _editGuid);
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("删除完成");
-                ClearInput();
-                LoadData();
-            }
+            CustomerRepository.Delete(_editGuid);
+            MessageBox.Show("删除完成");
+            ClearInput();
+            LoadData();
         }
 
         private void dgvCustomer_DoubleClick(object sender, EventArgs e)

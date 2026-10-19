@@ -1,12 +1,5 @@
-using Microsoft.Data.SqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace CSStudy
@@ -23,12 +16,7 @@ namespace CSStudy
 
         void LoadData()
         {
-            string sql = @"SELECT uGUID,suppNo,suppName,suppContact,suppPhone,suppAddress,suppRemark,
-CreateUser,CreateTime,UpdateUser,UpdateTime FROM Supplier";
-            SqlDataAdapter da = new SqlDataAdapter(sql, Db.ConnectionString);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            dgvSupplier.DataSource = dt;
+            dgvSupplier.DataSource = SupplierRepository.GetAll();
 
             //隐藏uGUID主键列
             if (dgvSupplier.Columns["uGUID"] != null)
@@ -66,41 +54,18 @@ CreateUser,CreateTime,UpdateUser,UpdateTime FROM Supplier";
                 return;
             }
 
-            using (SqlConnection conn = Db.Open())
+            if (_editGuid == Guid.Empty)
             {
-                SqlCommand cmd;
-                if (_editGuid == Guid.Empty)
-                {
-                    //新增，uGUID由数据库DEFAULT NEWID()生成，只填CreateUser，时间数据库默认
-                    string insertSql = @"INSERT INTO Supplier(suppNo,suppName,suppContact,suppPhone,suppAddress,suppRemark,CreateUser)
-VALUES(@suppNo,@suppName,@suppContact,@suppPhone,@suppAddress,@suppRemark,@CreateUser)";
-                    cmd = new SqlCommand(insertSql, conn);
-                    cmd.Parameters.AddWithValue("@CreateUser", CurrentUser);
-                }
-                else
-                {
-                    //修改，更新人+更新时间，不动创建信息
-                    string updateSql = @"UPDATE Supplier SET
-suppNo=@suppNo,suppName=@suppName,suppContact=@suppContact,suppPhone=@suppPhone,
-suppAddress=@suppAddress,suppRemark=@suppRemark,UpdateUser=@UpdateUser,UpdateTime=GETDATE()
-WHERE uGUID=@uGUID";
-                    cmd = new SqlCommand(updateSql, conn);
-                    cmd.Parameters.AddWithValue("@uGUID", _editGuid);
-                    cmd.Parameters.AddWithValue("@UpdateUser", CurrentUser);
-                }
-
-                cmd.Parameters.AddWithValue("@suppNo", suppNo);
-                cmd.Parameters.AddWithValue("@suppName", suppName);
-                cmd.Parameters.AddWithValue("@suppContact", contact);
-                cmd.Parameters.AddWithValue("@suppPhone", phone);
-                cmd.Parameters.AddWithValue("@suppAddress", addr);
-                cmd.Parameters.AddWithValue("@suppRemark", remark);
-
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("保存成功");
-                ClearInput();
-                LoadData();
+                SupplierRepository.Insert(suppNo, suppName, contact, phone, addr, remark, CurrentUser);
             }
+            else
+            {
+                SupplierRepository.Update(_editGuid, suppNo, suppName, contact, phone, addr, remark, CurrentUser);
+            }
+
+            MessageBox.Show("保存成功");
+            ClearInput();
+            LoadData();
         }
         void ClearInput()
         {

@@ -1,5 +1,4 @@
 using System.Data;
-using Microsoft.Data.SqlClient;
 
 namespace CSStudy
 {
@@ -34,24 +33,23 @@ namespace CSStudy
         #region 查询：从数据库读取全部人员，填充dtPerson
         private void LoadDataFromDB(string searchKey = "")
         {
+            DataTable source;
+            if (string.IsNullOrWhiteSpace(searchKey))
+                source = PersonRepository.GetAll();
+            else
+                source = PersonRepository.Search(searchKey);
+
             dtPerson.Clear();
-            string baseSql = "SELECT uGUID,sNo,sName,sGender,sDept,sSkill FROM Person WITH(NOLOCK) ";
-
-            if (!string.IsNullOrWhiteSpace(searchKey))
+            foreach (DataRow row in source.Rows)
             {
-                //工号或者姓名模糊匹配
-                baseSql += " WHERE sNo LIKE @key OR sName LIKE @key ";
-            }
-            baseSql += "ORDER BY sNo";
-
-            using (SqlConnection conn = Db.Open())
-            {
-                SqlDataAdapter da = new SqlDataAdapter(baseSql, conn);
-                if (!string.IsNullOrWhiteSpace(searchKey))
-                {
-                    da.SelectCommand.Parameters.AddWithValue("@key", $"%{searchKey}%");
-                }
-                da.Fill(dtPerson);
+                DataRow dr = dtPerson.NewRow();
+                dr["uGUID"] = row["uGUID"];
+                dr["sNo"] = row["sNo"];
+                dr["sName"] = row["sName"];
+                dr["sGender"] = row["sGender"];
+                dr["sDept"] = row["sDept"];
+                dr["sSkill"] = row["sSkill"];
+                dtPerson.Rows.Add(dr);
             }
         }
         #endregion
@@ -89,40 +87,13 @@ namespace CSStudy
             lstResult.Items.Add($"部门:{dept}");
             lstResult.Items.Add($"技能:{skills}");
 
-
-            using (SqlConnection conn = Db.Open())
+            if (_isEditMode)
             {
-                SqlCommand cmd;
-
-                if (_isEditMode)
-                {
-                    // ======编辑模式：执行UPDATE更新======
-                    string updateSql = @"
-UPDATE Person
-SET sNo=@sNo, sName=@sName, sGender=@sGender, sDept=@sDept, sSkill=@sSkill,UpdateUser=@UpdateUser, UpdateTime=GETDATE()
-WHERE uGUID=@uGUID";
-
-                    cmd = new SqlCommand(updateSql, conn);
-                    cmd.Parameters.AddWithValue("@uGUID", _editGuid); //编辑的主键
-                }
-                else
-                {
-                    // ======新增模式：执行INSERT插入======
-                    string insertSql = @"
-INSERT INTO Person(sNo,sName,sGender,sDept,sSkill,CreateUser)
-VALUES(@sNo,@sName,@sGender,@sDept,@sSkill,@CreateUser)";
-                    cmd = new SqlCommand(insertSql, conn);
-                }
-
-                //公共参数
-                cmd.Parameters.AddWithValue("@sNo", no);
-                cmd.Parameters.AddWithValue("@sName", name);
-                cmd.Parameters.AddWithValue("@sGender", gender);
-                cmd.Parameters.AddWithValue("@sDept", dept);
-                cmd.Parameters.AddWithValue("@sSkill", skills);
-                cmd.Parameters.AddWithValue("@CreateUser", CurrentUser);
-                cmd.Parameters.AddWithValue("@UpdateUser", CurrentUser);
-                cmd.ExecuteNonQuery();
+                PersonRepository.Update(_editGuid, no, name, gender, dept, skills, CurrentUser);
+            }
+            else
+            {
+                PersonRepository.Insert(no, name, gender, dept, skills, CurrentUser);
             }
 
             LoadDataFromDB(_searchKey);
@@ -146,13 +117,7 @@ VALUES(@sNo,@sName,@sGender,@sDept,@sSkill,@CreateUser)";
             DataRowView drv = dgvPerson.CurrentRow.DataBoundItem as DataRowView;
             Guid guid = (Guid)drv.Row["uGUID"];
 
-            string delSql = "DELETE FROM Person WHERE uGUID=@uGUID";
-            using (SqlConnection conn = Db.Open())
-            {
-                SqlCommand cmd = new SqlCommand(delSql, conn);
-                cmd.Parameters.AddWithValue("@uGUID", guid);
-                cmd.ExecuteNonQuery();
-            }
+            PersonRepository.Delete(guid);
             LoadDataFromDB(_searchKey);
         }
         #endregion
