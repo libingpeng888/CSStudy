@@ -13,7 +13,7 @@ namespace WinFormsApp1
         private string _searchKey = "";
         public PersonForm()
         {
-            InitializeComponent();
+            InitializeComponent(); //初始化窗体控件
 
             dtPerson = new DataTable();
             dtPerson.Columns.Add("uGUID", typeof(Guid));
