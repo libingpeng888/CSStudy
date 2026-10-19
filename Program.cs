@@ -14,7 +14,7 @@ namespace WinFormsApp1
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Person());
+            
             //先打开登录窗口
 
             LoginForm login = new LoginForm();
