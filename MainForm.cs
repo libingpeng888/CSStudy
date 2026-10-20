@@ -133,6 +133,57 @@ namespace CSStudy
             frm.Show();
         }
 
+        private void 仓库档案ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form childFrm in this.MdiChildren)
+            {
+                if (childFrm.GetType() == typeof(WarehouseForm))
+                {
+                    childFrm.Activate();
+                    return;
+                }
+            }
+            WarehouseForm frm = new WarehouseForm();
+            frm.MdiParent = this;
+            frm.CurrentUser = this.LoginUserName;  //传入登录账号
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 计量单位ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form childFrm in this.MdiChildren)
+            {
+                if (childFrm.GetType() == typeof(UnitForm))
+                {
+                    childFrm.Activate();
+                    return;
+                }
+            }
+            UnitForm frm = new UnitForm();
+            frm.MdiParent = this;
+            frm.CurrentUser = this.LoginUserName;  //传入登录账号
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
+        private void 数据字典ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            foreach (Form childFrm in this.MdiChildren)
+            {
+                if (childFrm.GetType() == typeof(DictForm))
+                {
+                    childFrm.Activate();
+                    return;
+                }
+            }
+            DictForm frm = new DictForm();
+            frm.MdiParent = this;
+            frm.CurrentUser = this.LoginUserName;  //传入登录账号
+            frm.WindowState = FormWindowState.Maximized;
+            frm.Show();
+        }
+
         private void 采购申请ToolStripMenuItem_Click(object sender, EventArgs e)
         {
      

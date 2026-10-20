@@ -40,7 +40,7 @@ namespace CSStudy
             txtMNo = new TextBox();
             txtMName = new TextBox();
             txtMSpec = new TextBox();
-            txtMUnit = new TextBox();
+            cboUnit = new ComboBox();
             txtMPrice = new TextBox();
             txtMRemark = new TextBox();
             lstResult = new ListBox();
@@ -140,12 +140,13 @@ namespace CSStudy
             txtMSpec.Size = new Size(125, 27);
             txtMSpec.TabIndex = 2;
             // 
-            // txtMUnit
+            // cboUnit
             // 
-            txtMUnit.Location = new Point(104, 175);
-            txtMUnit.Name = "txtMUnit";
-            txtMUnit.Size = new Size(125, 27);
-            txtMUnit.TabIndex = 3;
+            cboUnit.FormattingEnabled = true;
+            cboUnit.Location = new Point(104, 175);
+            cboUnit.Name = "cboUnit";
+            cboUnit.Size = new Size(125, 28);
+            cboUnit.TabIndex = 3;
             // 
             // txtMPrice
             // 
@@ -264,7 +265,6 @@ namespace CSStudy
             // cboCategory
             // 
             cboCategory.FormattingEnabled = true;
-            cboCategory.Items.AddRange(new object[] { "原材料", "半成品", "成品", "辅料", "包装物" });
             cboCategory.Location = new Point(104, 267);
             cboCategory.Name = "cboCategory";
             cboCategory.Size = new Size(125, 28);
@@ -359,7 +359,7 @@ namespace CSStudy
             Controls.Add(lstResult);
             Controls.Add(txtMRemark);
             Controls.Add(txtMPrice);
-            Controls.Add(txtMUnit);
+            Controls.Add(cboUnit);
             Controls.Add(txtMSpec);
             Controls.Add(txtMName);
             Controls.Add(txtMNo);
@@ -387,7 +387,7 @@ namespace CSStudy
         private TextBox txtMNo;
         private TextBox txtMName;
         private TextBox txtMSpec;
-        private TextBox txtMUnit;
+        private ComboBox cboUnit;
         private TextBox txtMPrice;
         private TextBox txtMRemark;
         private ListBox lstResult;

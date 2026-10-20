@@ -15,6 +15,21 @@ namespace CSStudy
         {
             InitializeComponent(); //初始化窗体控件
 
+            //部门下拉从"数据字典"加载（字典类型：部门），不再写死
+            cboDept.Items.Clear();
+            foreach (DataRow r in SysDictRepository.GetByType("部门").Rows)
+                cboDept.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+
+            //性别下拉从"数据字典"加载（字典类型：性别）
+            cboGender.Items.Clear();
+            foreach (DataRow r in SysDictRepository.GetByType("性别").Rows)
+                cboGender.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+
+            //技能多选清单从"数据字典"加载（字典类型：技能）
+            clbSkills.Items.Clear();
+            foreach (DataRow r in SysDictRepository.GetByType("技能").Rows)
+                clbSkills.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+
             cboSearchField.SelectedIndex = 0; // 默认"工号"→右侧显示文本框
 
             dtPerson = new DataTable();
@@ -71,17 +86,17 @@ namespace CSStudy
             }
 
             // 3. 取性别
-            string gender = rdoMale.Checked ? "男" : "女";
+            string gender = cboGender.Text;
 
             // 4. 取部门
             string dept = cboDept.Text;
 
             // 5. 取选中的技能
-            string skills = "";
-            if (chkCsharp.Checked) skills += "C# ";
-            if (chkSql.Checked) skills += "SQL ";
-            if (chkDelphi.Checked) skills += "Delphi ";
-            skills = skills.Trim();
+            //取选中的技能：把每个勾选项用空格拼接
+            var parts = new System.Collections.Generic.List<string>();
+            foreach (object item in clbSkills.CheckedItems)
+                parts.Add(Convert.ToString(item) ?? "");
+            string skills = string.Join(" ", parts);
 
             //lstResult.Items.Add($"——————————————");
             //lstResult.Items.Add($"工号:{no}");
@@ -137,14 +152,15 @@ namespace CSStudy
 
             txtNo.Text = drv.Row["sNo"].ToString();
             txtName.Text = drv.Row["sName"].ToString();
-            string g = drv.Row["sGender"].ToString();
-            rdoMale.Checked = g == "男";
-            rdoFemale.Checked = g == "女";
+            cboGender.Text = Convert.ToString(drv.Row["sGender"]);
             cboDept.Text = drv.Row["sDept"].ToString();
             string sk = drv.Row["sSkill"].ToString();
-            chkCsharp.Checked = sk.Contains("C#");
-            chkSql.Checked = sk.Contains("SQL");
-            chkDelphi.Checked = sk.Contains("Delphi");
+            //按字典项逐个匹配历史字符串（Contains），回填勾选
+            for (int i = 0; i < clbSkills.Items.Count; i++)
+            {
+                string item = Convert.ToString(clbSkills.Items[i]) ?? "";
+                clbSkills.SetItemChecked(i, item != "" && sk.Contains(item));
+            }
         }
         #endregion
 
@@ -153,11 +169,10 @@ namespace CSStudy
         {
             txtName.Clear();
             txtNo.Clear();
-            rdoMale.Checked = true;
+            cboGender.SelectedIndex = -1;
             cboDept.SelectedIndex = -1;
-            chkCsharp.Checked = false;
-            chkSql.Checked = false;
-            chkDelphi.Checked = false;
+            for (int i = 0; i < clbSkills.Items.Count; i++)
+                clbSkills.SetItemChecked(i, false);
 
             //清空同时重置状态，防止还停留在编辑模式
             _isEditMode = false;
@@ -175,15 +190,17 @@ namespace CSStudy
 
             if (cboSearchField.Text == "性别")
             {
-                cboSearchValue.Items.AddRange(new object[] { "男", "女" });
+                // 直接读数据字典"性别"，与录入下拉 cboGender 解耦
+                foreach (DataRow r in SysDictRepository.GetByType("性别").Rows)
+                    cboSearchValue.Items.Add(Convert.ToString(r["DictName"]) ?? "");
                 txtSearch.Visible = false;
                 cboSearchValue.Visible = true;
             }
             else if (cboSearchField.Text == "部门")
             {
-                // 复用 cboDept 的部门列表，避免两处维护
-                foreach (var item in cboDept.Items)
-                    cboSearchValue.Items.Add(item);
+                // 直接读数据字典"部门"，与录入下拉 cboDept 解耦
+                foreach (DataRow r in SysDictRepository.GetByType("部门").Rows)
+                    cboSearchValue.Items.Add(Convert.ToString(r["DictName"]) ?? "");
                 txtSearch.Visible = false;
                 cboSearchValue.Visible = true;
             }

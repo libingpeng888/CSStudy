@@ -34,6 +34,8 @@ namespace CSStudy
             客户档案ToolStripMenuItem = new ToolStripMenuItem();
             供应商档案ToolStripMenuItem = new ToolStripMenuItem();
             物料档案ToolStripMenuItem = new ToolStripMenuItem();
+            计量单位ToolStripMenuItem = new ToolStripMenuItem();
+            数据字典ToolStripMenuItem = new ToolStripMenuItem();
             采购管理ToolStripMenuItem = new ToolStripMenuItem();
             采购申请ToolStripMenuItem = new ToolStripMenuItem();
             采购订单ToolStripMenuItem = new ToolStripMenuItem();
@@ -41,6 +43,7 @@ namespace CSStudy
             应付账款ToolStripMenuItem = new ToolStripMenuItem();
             销售管理ToolStripMenuItem = new ToolStripMenuItem();
             库存管理ToolStripMenuItem = new ToolStripMenuItem();
+            仓库档案ToolStripMenuItem = new ToolStripMenuItem();
             系统ToolStripMenuItem = new ToolStripMenuItem();
             修改密码ToolStripMenuItem = new ToolStripMenuItem();
             退出系统ToolStripMenuItem = new ToolStripMenuItem();
@@ -62,7 +65,7 @@ namespace CSStudy
             // 
             // 基础档案ToolStripMenuItem
             // 
-            基础档案ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 人员信息登记ToolStripMenuItem, 客户档案ToolStripMenuItem, 供应商档案ToolStripMenuItem, 物料档案ToolStripMenuItem });
+            基础档案ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 人员信息登记ToolStripMenuItem, 客户档案ToolStripMenuItem, 供应商档案ToolStripMenuItem, 物料档案ToolStripMenuItem, 计量单位ToolStripMenuItem, 数据字典ToolStripMenuItem });
             基础档案ToolStripMenuItem.Name = "基础档案ToolStripMenuItem";
             基础档案ToolStripMenuItem.Size = new Size(83, 24);
             基础档案ToolStripMenuItem.Text = "基础档案";
@@ -94,6 +97,20 @@ namespace CSStudy
             物料档案ToolStripMenuItem.Size = new Size(224, 26);
             物料档案ToolStripMenuItem.Text = "物料档案";
             物料档案ToolStripMenuItem.Click += 物料档案ToolStripMenuItem_Click;
+            // 
+            // 计量单位ToolStripMenuItem
+            // 
+            计量单位ToolStripMenuItem.Name = "计量单位ToolStripMenuItem";
+            计量单位ToolStripMenuItem.Size = new Size(224, 26);
+            计量单位ToolStripMenuItem.Text = "计量单位";
+            计量单位ToolStripMenuItem.Click += 计量单位ToolStripMenuItem_Click;
+            // 
+            // 数据字典ToolStripMenuItem
+            // 
+            数据字典ToolStripMenuItem.Name = "数据字典ToolStripMenuItem";
+            数据字典ToolStripMenuItem.Size = new Size(224, 26);
+            数据字典ToolStripMenuItem.Text = "数据字典";
+            数据字典ToolStripMenuItem.Click += 数据字典ToolStripMenuItem_Click;
             // 
             // 采购管理ToolStripMenuItem
             // 
@@ -138,9 +155,17 @@ namespace CSStudy
             // 
             // 库存管理ToolStripMenuItem
             // 
+            库存管理ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 仓库档案ToolStripMenuItem });
             库存管理ToolStripMenuItem.Name = "库存管理ToolStripMenuItem";
             库存管理ToolStripMenuItem.Size = new Size(83, 24);
             库存管理ToolStripMenuItem.Text = "库存管理";
+            // 
+            // 仓库档案ToolStripMenuItem
+            // 
+            仓库档案ToolStripMenuItem.Name = "仓库档案ToolStripMenuItem";
+            仓库档案ToolStripMenuItem.Size = new Size(224, 26);
+            仓库档案ToolStripMenuItem.Text = "仓库档案";
+            仓库档案ToolStripMenuItem.Click += 仓库档案ToolStripMenuItem_Click;
             // 
             // 系统ToolStripMenuItem
             // 
@@ -207,6 +232,8 @@ namespace CSStudy
         private ToolStripMenuItem 客户档案ToolStripMenuItem;
         private ToolStripMenuItem 供应商档案ToolStripMenuItem;
         private ToolStripMenuItem 物料档案ToolStripMenuItem;
+        private ToolStripMenuItem 计量单位ToolStripMenuItem;
+        private ToolStripMenuItem 数据字典ToolStripMenuItem;
         private ToolStripMenuItem 采购管理ToolStripMenuItem;
         private ToolStripMenuItem 采购申请ToolStripMenuItem;
         private ToolStripMenuItem 采购订单ToolStripMenuItem;
@@ -214,6 +241,7 @@ namespace CSStudy
         private ToolStripMenuItem 应付账款ToolStripMenuItem;
         private ToolStripMenuItem 销售管理ToolStripMenuItem;
         private ToolStripMenuItem 库存管理ToolStripMenuItem;
+        private ToolStripMenuItem 仓库档案ToolStripMenuItem;
         private ToolStripMenuItem 系统ToolStripMenuItem;
         private ToolStripMenuItem 修改密码ToolStripMenuItem;
         private ToolStripMenuItem 退出系统ToolStripMenuItem;

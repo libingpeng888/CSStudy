@@ -14,6 +14,17 @@ namespace CSStudy
         public MaterialForm()
         {
             InitializeComponent();
+
+            //物料分类下拉从"数据字典"加载（字典类型：物料分类），不再写死
+            cboCategory.Items.Clear();
+            foreach (DataRow r in SysDictRepository.GetByType("物料分类").Rows)
+                cboCategory.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+
+            //计量单位下拉从"计量单位"表加载（单一数据源：Unit 表），不再写死
+            cboUnit.Items.Clear();
+            foreach (string un in UnitRepository.GetNames())
+                cboUnit.Items.Add(un);
+
             cboSearchField.SelectedIndex = 0; // 默认选中"物料编号"
             LoadData();
         }
@@ -99,7 +110,7 @@ namespace CSStudy
             string mNo = txtMNo.Text.Trim();
             string mName = txtMName.Text.Trim();
             string mSpec = txtMSpec.Text.Trim();
-            string mUnit = txtMUnit.Text.Trim();
+            string mUnit = cboUnit.Text.Trim();
             string mPrice = txtMPrice.Text.Trim();
             string mCategory = cboCategory.Text.Trim();
             string mRemark = txtMRemark.Text.Trim();
@@ -140,7 +151,8 @@ namespace CSStudy
             txtMNo.Clear();
             txtMName.Clear();
             txtMSpec.Clear();
-            txtMUnit.Clear();
+            cboUnit.SelectedIndex = -1;
+            cboUnit.Text = "";
             txtMPrice.Clear();
             cboCategory.SelectedIndex = -1;
             txtMRemark.Clear();
@@ -187,7 +199,7 @@ namespace CSStudy
             txtMNo.Text = drv.Row["mNo"].ToString();
             txtMName.Text = drv.Row["mName"].ToString();
             txtMSpec.Text = drv.Row["mSpec"]?.ToString();
-            txtMUnit.Text = drv.Row["mUnit"]?.ToString();
+            cboUnit.Text = Convert.ToString(drv.Row["mUnit"]);
             txtMPrice.Text = drv.Row["mPrice"]?.ToString();
             cboCategory.Text = drv.Row["mCategory"]?.ToString();
             txtMRemark.Text = drv.Row["mRemark"]?.ToString();

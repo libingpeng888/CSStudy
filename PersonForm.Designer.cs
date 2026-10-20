@@ -35,12 +35,9 @@ namespace CSStudy
             label4 = new Label();
             txtName = new TextBox();
             txtNo = new TextBox();
-            rdoMale = new RadioButton();
-            rdoFemale = new RadioButton();
+            cboGender = new ComboBox();
             cboDept = new ComboBox();
-            chkCsharp = new CheckBox();
-            chkSql = new CheckBox();
-            chkDelphi = new CheckBox();
+            clbSkills = new CheckedListBox();
             btnClear = new Button();
             dgvPerson = new DataGridView();
             colSno = new DataGridViewTextBoxColumn();
@@ -117,66 +114,31 @@ namespace CSStudy
             txtNo.Size = new Size(125, 27);
             txtNo.TabIndex = 6;
             // 
-            // rdoMale
+            // cboGender
             // 
-            rdoMale.AutoSize = true;
-            rdoMale.Location = new Point(86, 66);
-            rdoMale.Name = "rdoMale";
-            rdoMale.Size = new Size(45, 24);
-            rdoMale.TabIndex = 7;
-            rdoMale.TabStop = true;
-            rdoMale.Text = "男";
-            rdoMale.UseVisualStyleBackColor = true;
-            // 
-            // rdoFemale
-            // 
-            rdoFemale.AutoSize = true;
-            rdoFemale.Location = new Point(137, 66);
-            rdoFemale.Name = "rdoFemale";
-            rdoFemale.Size = new Size(45, 24);
-            rdoFemale.TabIndex = 8;
-            rdoFemale.TabStop = true;
-            rdoFemale.Text = "女";
-            rdoFemale.UseVisualStyleBackColor = true;
+            cboGender.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboGender.FormattingEnabled = true;
+            cboGender.Location = new Point(86, 66);
+            cboGender.Name = "cboGender";
+            cboGender.Size = new Size(120, 28);
+            cboGender.TabIndex = 7;
             // 
             // cboDept
             // 
             cboDept.FormattingEnabled = true;
-            cboDept.Items.AddRange(new object[] { "研发部", "市场部", "财务部", "生产部" });
             cboDept.Location = new Point(87, 158);
             cboDept.Name = "cboDept";
             cboDept.Size = new Size(151, 28);
             cboDept.TabIndex = 9;
             // 
-            // chkCsharp
+            // clbSkills
             // 
-            chkCsharp.AutoSize = true;
-            chkCsharp.Location = new Point(87, 207);
-            chkCsharp.Name = "chkCsharp";
-            chkCsharp.Size = new Size(51, 24);
-            chkCsharp.TabIndex = 10;
-            chkCsharp.Text = "C#";
-            chkCsharp.UseVisualStyleBackColor = true;
-            // 
-            // chkSql
-            // 
-            chkSql.AutoSize = true;
-            chkSql.Location = new Point(86, 233);
-            chkSql.Name = "chkSql";
-            chkSql.Size = new Size(111, 24);
-            chkSql.TabIndex = 11;
-            chkSql.Text = "SQL Server";
-            chkSql.UseVisualStyleBackColor = true;
-            // 
-            // chkDelphi
-            // 
-            chkDelphi.AutoSize = true;
-            chkDelphi.Location = new Point(87, 263);
-            chkDelphi.Name = "chkDelphi";
-            chkDelphi.Size = new Size(78, 24);
-            chkDelphi.TabIndex = 12;
-            chkDelphi.Text = "\tDelphi";
-            chkDelphi.UseVisualStyleBackColor = true;
+            clbSkills.CheckOnClick = true;
+            clbSkills.FormattingEnabled = true;
+            clbSkills.Location = new Point(86, 203);
+            clbSkills.Name = "clbSkills";
+            clbSkills.Size = new Size(160, 92);
+            clbSkills.TabIndex = 10;
             // 
             // btnClear
             // 
@@ -313,12 +275,9 @@ namespace CSStudy
             Controls.Add(btnDelete);
             Controls.Add(dgvPerson);
             Controls.Add(btnClear);
-            Controls.Add(chkDelphi);
-            Controls.Add(chkSql);
-            Controls.Add(chkCsharp);
+            Controls.Add(clbSkills);
             Controls.Add(cboDept);
-            Controls.Add(rdoFemale);
-            Controls.Add(rdoMale);
+            Controls.Add(cboGender);
             Controls.Add(txtNo);
             Controls.Add(txtName);
             Controls.Add(label4);
@@ -342,12 +301,9 @@ namespace CSStudy
         private Label label4;
         private TextBox txtName;
         private TextBox txtNo;
-        private RadioButton rdoMale;
-        private RadioButton rdoFemale;
+        private ComboBox cboGender;
         private ComboBox cboDept;
-        private CheckBox chkCsharp;
-        private CheckBox chkSql;
-        private CheckBox chkDelphi;
+        private CheckedListBox clbSkills;
         private Button btnClear;
         private DataGridView dgvPerson;
         private Button btnDelete;
