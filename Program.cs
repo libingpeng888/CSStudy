@@ -20,8 +20,7 @@ namespace CSStudy
             LoginForm login = new LoginForm();
             if (login.ShowDialog() == DialogResult.OK)
             {
-                //登录成功，打开主界面Form1
-                //Application.Run(new MainForm());
+                //登录成功，打开主界面
                 MainForm main = new MainForm();
                 main.LoginUserName = login.LoggedInUserName;
 

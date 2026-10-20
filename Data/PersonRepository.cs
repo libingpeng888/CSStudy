@@ -21,13 +21,28 @@ namespace CSStudy
             }
         }
 
-        /// <summary>按工号或姓名模糊搜索（参数化）</summary>
-        public static DataTable Search(string keyword)
+        /// <summary>按指定字段模糊搜索（字段名走白名单，防字段名注入）</summary>
+        /// <param name="field">查询字段：工号 / 姓名 / 性别 / 部门</param>
+        /// <param name="keyword">查询关键字</param>
+        public static DataTable Search(string field, string keyword)
         {
+            // 白名单映射：界面字段 → 数据库列名。
+            // 列名无法用参数占位符，必须白名单校验后才允许拼进 SQL，
+            // 否则 field 传入恶意串会形成字段名注入。
+            string col;
+            switch (field)
+            {
+                case "工号": col = "sNo"; break;
+                case "姓名": col = "sName"; break;
+                case "性别": col = "sGender"; break;
+                case "部门": col = "sDept"; break;
+                default: col = "sNo"; break;   // 非法值兜底，绝不直接拼接
+            }
+
             using (SqlConnection conn = Db.Open())
             using (SqlCommand cmd = new SqlCommand(
                 $"SELECT {SelectCols} FROM Person " +
-                "WHERE sNo LIKE @kw OR sName LIKE @kw " +
+                $"WHERE {col} LIKE @kw " +
                 "ORDER BY sNo", conn))
             {
                 cmd.Parameters.AddWithValue("@kw", $"%{keyword}%");

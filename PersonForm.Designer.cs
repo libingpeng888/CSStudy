@@ -42,7 +42,6 @@ namespace CSStudy
             chkSql = new CheckBox();
             chkDelphi = new CheckBox();
             btnClear = new Button();
-            lstResult = new ListBox();
             dgvPerson = new DataGridView();
             colSno = new DataGridViewTextBoxColumn();
             colSname = new DataGridViewTextBoxColumn();
@@ -53,6 +52,8 @@ namespace CSStudy
             txtSearch = new TextBox();
             btnSearch = new Button();
             btnResetSearc = new Button();
+            cboSearchField = new ComboBox();
+            cboSearchValue = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvPerson).BeginInit();
             SuspendLayout();
             // 
@@ -187,14 +188,6 @@ namespace CSStudy
             btnClear.UseVisualStyleBackColor = true;
             btnClear.Click += btnClear_Click;
             // 
-            // lstResult
-            // 
-            lstResult.FormattingEnabled = true;
-            lstResult.Location = new Point(265, 66);
-            lstResult.Name = "lstResult";
-            lstResult.Size = new Size(150, 264);
-            lstResult.TabIndex = 14;
-            // 
             // dgvPerson
             // 
             dgvPerson.AllowUserToOrderColumns = true;
@@ -285,6 +278,28 @@ namespace CSStudy
             btnResetSearc.UseVisualStyleBackColor = true;
             btnResetSearc.Click += btnResetSearc_Click;
             // 
+            // cboSearchField
+            // 
+            cboSearchField.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSearchField.FormattingEnabled = true;
+            cboSearchField.Items.AddRange(new object[] { "工号", "姓名", "性别", "部门" });
+            cboSearchField.Location = new Point(310, 12);
+            cboSearchField.Name = "cboSearchField";
+            cboSearchField.Size = new Size(120, 28);
+            cboSearchField.TabIndex = 20;
+            cboSearchField.SelectedIndexChanged += cboSearchField_SelectedIndexChanged;
+            // 
+            // cboSearchValue
+            // 
+            cboSearchValue.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSearchValue.FormattingEnabled = true;
+            cboSearchValue.Location = new Point(444, 12);
+            cboSearchValue.Name = "cboSearchValue";
+            cboSearchValue.Size = new Size(185, 27);
+            cboSearchValue.TabIndex = 21;
+            cboSearchValue.Visible = false;
+            cboSearchValue.KeyDown += cboSearchValue_KeyDown;
+            // 
             // PersonForm
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
@@ -293,9 +308,10 @@ namespace CSStudy
             Controls.Add(btnResetSearc);
             Controls.Add(btnSearch);
             Controls.Add(txtSearch);
+            Controls.Add(cboSearchValue);
+            Controls.Add(cboSearchField);
             Controls.Add(btnDelete);
             Controls.Add(dgvPerson);
-            Controls.Add(lstResult);
             Controls.Add(btnClear);
             Controls.Add(chkDelphi);
             Controls.Add(chkSql);
@@ -333,7 +349,6 @@ namespace CSStudy
         private CheckBox chkSql;
         private CheckBox chkDelphi;
         private Button btnClear;
-        private ListBox lstResult;
         private DataGridView dgvPerson;
         private Button btnDelete;
         private DataGridViewTextBoxColumn colSno;
@@ -344,5 +359,7 @@ namespace CSStudy
         private TextBox txtSearch;
         private Button btnSearch;
         private Button btnResetSearc;
+        private ComboBox cboSearchField;
+        private ComboBox cboSearchValue;
     }
 }

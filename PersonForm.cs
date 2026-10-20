@@ -10,9 +10,12 @@ namespace CSStudy
         private Guid _editGuid;                // 当前编辑行的主键uGUID
 
         private string _searchKey = "";
+        private string _searchField = "工号";   // 当前查询字段：工号/姓名/性别/部门
         public PersonForm()
         {
             InitializeComponent(); //初始化窗体控件
+
+            cboSearchField.SelectedIndex = 0; // 默认"工号"→右侧显示文本框
 
             dtPerson = new DataTable();
             dtPerson.Columns.Add("uGUID", typeof(Guid));
@@ -31,13 +34,13 @@ namespace CSStudy
         }
 
         #region 查询：从数据库读取全部人员，填充dtPerson
-        private void LoadDataFromDB(string searchKey = "")
+        private void LoadDataFromDB(string searchKey = "", string field = "工号")
         {
             DataTable source;
             if (string.IsNullOrWhiteSpace(searchKey))
                 source = PersonRepository.GetAll();
             else
-                source = PersonRepository.Search(searchKey);
+                source = PersonRepository.Search(field, searchKey);
 
             dtPerson.Clear();
             foreach (DataRow row in source.Rows)
@@ -80,12 +83,12 @@ namespace CSStudy
             if (chkDelphi.Checked) skills += "Delphi ";
             skills = skills.Trim();
 
-            lstResult.Items.Add($"——————————————");
-            lstResult.Items.Add($"工号:{no}");
-            lstResult.Items.Add($"姓名:{name}");
-            lstResult.Items.Add($"性别:{gender}");
-            lstResult.Items.Add($"部门:{dept}");
-            lstResult.Items.Add($"技能:{skills}");
+            //lstResult.Items.Add($"——————————————");
+            //lstResult.Items.Add($"工号:{no}");
+            //lstResult.Items.Add($"姓名:{name}");
+            //lstResult.Items.Add($"性别:{gender}");
+            //lstResult.Items.Add($"部门:{dept}");
+            //lstResult.Items.Add($"技能:{skills}");
 
             if (_isEditMode)
             {
@@ -96,7 +99,7 @@ namespace CSStudy
                 PersonRepository.Insert(no, name, gender, dept, skills, CurrentUser);
             }
 
-            LoadDataFromDB(_searchKey);
+            LoadDataFromDB(_searchKey, _searchField);
 
             // ✅提交完成后，重置为【新增模式】！！非常关键
             _isEditMode = false;
@@ -118,7 +121,7 @@ namespace CSStudy
             Guid guid = (Guid)drv.Row["uGUID"];
 
             PersonRepository.Delete(guid);
-            LoadDataFromDB(_searchKey);
+            LoadDataFromDB(_searchKey, _searchField);
         }
         #endregion
 
@@ -161,22 +164,62 @@ namespace CSStudy
             _editGuid = Guid.Empty;
         }
 
+        // 切换查询字段：性别/部门 → 受限下拉框；工号/姓名 → 文本框
+        private void cboSearchField_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 先复位：显示文本框，隐藏并清空下拉框（防止残留值泄漏进下次查询）
+            txtSearch.Visible = true;
+            cboSearchValue.Visible = false;
+            cboSearchValue.Items.Clear();
+            cboSearchValue.SelectedIndex = -1;
+
+            if (cboSearchField.Text == "性别")
+            {
+                cboSearchValue.Items.AddRange(new object[] { "男", "女" });
+                txtSearch.Visible = false;
+                cboSearchValue.Visible = true;
+            }
+            else if (cboSearchField.Text == "部门")
+            {
+                // 复用 cboDept 的部门列表，避免两处维护
+                foreach (var item in cboDept.Items)
+                    cboSearchValue.Items.Add(item);
+                txtSearch.Visible = false;
+                cboSearchValue.Visible = true;
+            }
+        }
+
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            _searchKey = txtSearch.Text.Trim();
-            LoadDataFromDB(_searchKey);
+            _searchField = cboSearchField.Text;
+            // 从当前可见的控件取值：下拉框（性别/部门）或文本框（工号/姓名）
+            _searchKey = cboSearchValue.Visible
+                ? cboSearchValue.Text
+                : txtSearch.Text.Trim();
+            LoadDataFromDB(_searchKey, _searchField);
         }
 
         private void btnResetSearc_Click(object sender, EventArgs e)
         {
             txtSearch.Clear();
+            cboSearchValue.SelectedIndex = -1;
             _searchKey = "";
+            _searchField = "工号";
+            cboSearchField.SelectedIndex = 0; // 恢复"工号"→显示文本框
             LoadDataFromDB(); //加载全部
         }
 
         private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
+            {
+                btnSearch_Click(null, null);
+            }
+        }
+
+        private void cboSearchValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
             {
                 btnSearch_Click(null, null);
             }
