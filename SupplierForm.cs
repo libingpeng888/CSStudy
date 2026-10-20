@@ -8,9 +8,12 @@ namespace CSStudy
     {
         public string CurrentUser { get; set; }
         private Guid _editGuid = Guid.Empty; //编辑主键uGUID；Empty=新增模式
+        private string _searchField = "供应商编号";  // 当前查询字段
+        private string _searchKey = "";              // 当前查询关键字
         public SupplierForm()
         {
             InitializeComponent();
+            cboSearchField.SelectedIndex = 0; // 默认选中"供应商编号"
             LoadData();
         }
 
@@ -21,6 +24,35 @@ namespace CSStudy
             //隐藏uGUID主键列
             if (dgvSupplier.Columns["uGUID"] != null)
                 dgvSupplier.Columns["uGUID"].Visible = false;
+        }
+
+        private void btnQuery_Click(object sender, EventArgs e)
+        {
+            _searchField = cboSearchField.Text;
+            _searchKey = txtSearch.Text.Trim();
+            if (string.IsNullOrEmpty(_searchKey))
+            {
+                LoadData();
+                return;
+            }
+            dgvSupplier.DataSource = SupplierRepository.Search(_searchField, _searchKey);
+            if (dgvSupplier.Columns["uGUID"] != null)
+                dgvSupplier.Columns["uGUID"].Visible = false;
+        }
+
+        private void btnReset_Click(object sender, EventArgs e)
+        {
+            txtSearch.Clear();
+            _searchKey = "";
+            _searchField = "供应商编号";
+            cboSearchField.SelectedIndex = 0;
+            LoadData();
+        }
+
+        private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+                btnQuery_Click(null, null);
         }
 
         private void dgvSupplier_DoubleClick(object sender, EventArgs e)

@@ -8,9 +8,12 @@ namespace CSStudy
     {
         public string CurrentUser { get; set; }
         private Guid _editGuid = Guid.Empty; //选中行主键uGUID；Empty=新增模式
+        private string _searchField = "客户编号";  // 当前查询字段
+        private string _searchKey = "";            // 当前查询关键字
         public CustomerForm()
         {
             InitializeComponent();
+            cboSearchField.SelectedIndex = 0; // 默认选中"客户编号"
             LoadData();
         }
 
@@ -25,13 +28,14 @@ namespace CSStudy
 
         private void btnQuery_Click(object sender, EventArgs e)
         {
-            string key = txtSearch.Text.Trim();
-            if (string.IsNullOrEmpty(key))
+            _searchField = cboSearchField.Text;
+            _searchKey = txtSearch.Text.Trim();
+            if (string.IsNullOrEmpty(_searchKey))
             {
                 LoadData();
                 return;
             }
-            dgvCustomer.DataSource = CustomerRepository.Search(key);
+            dgvCustomer.DataSource = CustomerRepository.Search(_searchField, _searchKey);
             if (dgvCustomer.Columns["uGUID"] != null)
                 dgvCustomer.Columns["uGUID"].Visible = false;
         }
@@ -39,7 +43,16 @@ namespace CSStudy
         private void btnReset_Click(object sender, EventArgs e)
         {
             txtSearch.Clear();
+            _searchKey = "";
+            _searchField = "客户编号";
+            cboSearchField.SelectedIndex = 0;
             LoadData();
+        }
+
+        private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+                btnQuery_Click(null, null);
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)

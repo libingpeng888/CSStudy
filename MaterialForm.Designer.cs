@@ -45,6 +45,8 @@ namespace CSStudy
             txtMRemark = new TextBox();
             lstResult = new ListBox();
             txtSearch = new TextBox();
+            cboSearchField = new ComboBox();
+            cboSearchValue = new ComboBox();
             btnQuery = new Button();
             btnReset = new Button();
             btnSubmit = new Button();
@@ -168,16 +170,39 @@ namespace CSStudy
             lstResult.Size = new Size(150, 304);
             lstResult.TabIndex = 7;
             // 
+            // cboSearchField
+            // 
+            cboSearchField.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSearchField.FormattingEnabled = true;
+            cboSearchField.Items.AddRange(new object[] { "物料编号", "物料名称", "规格型号", "物料分类" });
+            cboSearchField.Location = new Point(436, 28);
+            cboSearchField.Name = "cboSearchField";
+            cboSearchField.Size = new Size(120, 28);
+            cboSearchField.TabIndex = 20;
+            cboSearchField.SelectedIndexChanged += cboSearchField_SelectedIndexChanged;
+            // 
+            // cboSearchValue
+            // 
+            cboSearchValue.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSearchValue.FormattingEnabled = true;
+            cboSearchValue.Location = new Point(566, 28);
+            cboSearchValue.Name = "cboSearchValue";
+            cboSearchValue.Size = new Size(164, 27);
+            cboSearchValue.TabIndex = 21;
+            cboSearchValue.Visible = false;
+            cboSearchValue.KeyDown += cboSearchValue_KeyDown;
+            // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(436, 28);
+            txtSearch.Location = new Point(566, 28);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(164, 27);
             txtSearch.TabIndex = 8;
+            txtSearch.KeyPress += txtSearch_KeyPress;
             // 
             // btnQuery
             // 
-            btnQuery.Location = new Point(606, 26);
+            btnQuery.Location = new Point(736, 26);
             btnQuery.Name = "btnQuery";
             btnQuery.Size = new Size(94, 29);
             btnQuery.TabIndex = 9;
@@ -187,7 +212,7 @@ namespace CSStudy
             // 
             // btnReset
             // 
-            btnReset.Location = new Point(706, 26);
+            btnReset.Location = new Point(836, 26);
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(94, 29);
             btnReset.TabIndex = 10;
@@ -328,6 +353,8 @@ namespace CSStudy
             Controls.Add(btnSubmit);
             Controls.Add(btnReset);
             Controls.Add(btnQuery);
+            Controls.Add(cboSearchValue);
+            Controls.Add(cboSearchField);
             Controls.Add(txtSearch);
             Controls.Add(lstResult);
             Controls.Add(txtMRemark);
@@ -365,6 +392,8 @@ namespace CSStudy
         private TextBox txtMRemark;
         private ListBox lstResult;
         private TextBox txtSearch;
+        private ComboBox cboSearchField;
+        private ComboBox cboSearchValue;
         private Button btnQuery;
         private Button btnReset;
         private Button btnSubmit;

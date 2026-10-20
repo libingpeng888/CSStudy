@@ -16,11 +16,6 @@ namespace CSStudy
         {
             InitializeComponent();
 
-            ////纯色背景
-            //this.BackColor = Color.FromArgb(245, 248, 250);
-
-            //BuildModernLayout();
-
             //窗体加载读取缓存
             if (File.Exists(saveFile))
             {

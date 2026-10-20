@@ -26,13 +26,24 @@ namespace CSStudy
             }
         }
 
-        /// <summary>按编号或名称模糊搜索（参数化，防注入）</summary>
-        public static DataTable Search(string keyword)
+        /// <summary>按指定字段模糊搜索（字段名走白名单，防字段名注入）</summary>
+        /// <param name="field">查询字段：物料编号 / 物料名称 / 规格型号 / 物料分类</param>
+        public static DataTable Search(string field, string keyword)
         {
+            // 列名无法用参数占位符，必须白名单校验后才允许拼进 SQL
+            string col;
+            switch (field)
+            {
+                case "物料编号": col = "mNo"; break;
+                case "物料名称": col = "mName"; break;
+                case "规格型号": col = "mSpec"; break;
+                case "物料分类": col = "mCategory"; break;
+                default: col = "mNo"; break;   // 非法值兜底，绝不直接拼接
+            }
+
             using (SqlConnection conn = Db.Open())
             using (SqlCommand cmd = new SqlCommand(
-                $"SELECT {SelectCols} FROM Material " +
-                "WHERE mNo LIKE @kw OR mName LIKE @kw", conn))
+                $"SELECT {SelectCols} FROM Material WHERE {col} LIKE @kw", conn))
             {
                 cmd.Parameters.AddWithValue("@kw", $"%{keyword}%");
                 DataTable dt = new DataTable();

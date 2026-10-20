@@ -21,13 +21,24 @@ namespace CSStudy
             }
         }
 
-        /// <summary>按编号或名称模糊搜索（参数化，防注入）</summary>
-        public static DataTable Search(string keyword)
+        /// <summary>按指定字段模糊搜索（字段名走白名单，防字段名注入）</summary>
+        /// <param name="field">查询字段：客户编号 / 客户名称 / 联系人 / 联系电话</param>
+        public static DataTable Search(string field, string keyword)
         {
+            // 列名无法用参数占位符，必须白名单校验后才允许拼进 SQL
+            string col;
+            switch (field)
+            {
+                case "客户编号": col = "cNo"; break;
+                case "客户名称": col = "cName"; break;
+                case "联系人": col = "cContact"; break;
+                case "联系电话": col = "cPhone"; break;
+                default: col = "cNo"; break;   // 非法值兜底，绝不直接拼接
+            }
+
             using (SqlConnection conn = Db.Open())
             using (SqlCommand cmd = new SqlCommand(
-                $"SELECT {SelectCols} FROM Customer " +
-                "WHERE cNo LIKE @kw OR cName LIKE @kw", conn))
+                $"SELECT {SelectCols} FROM Customer WHERE {col} LIKE @kw", conn))
             {
                 cmd.Parameters.AddWithValue("@kw", $"%{keyword}%");
                 DataTable dt = new DataTable();

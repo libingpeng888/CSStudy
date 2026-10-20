@@ -42,6 +42,7 @@ namespace CSStudy
             txtSuppRemark = new TextBox();
             lstResult = new ListBox();
             txtSearch = new TextBox();
+            cboSearchField = new ComboBox();
             btnQuery = new Button();
             btnReset = new Button();
             btnSubmit = new Button();
@@ -161,30 +162,43 @@ namespace CSStudy
             lstResult.Size = new Size(150, 264);
             lstResult.TabIndex = 20;
             // 
+            // cboSearchField
+            // 
+            cboSearchField.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSearchField.FormattingEnabled = true;
+            cboSearchField.Items.AddRange(new object[] { "供应商编号", "供应商名称", "联系人", "联系电话" });
+            cboSearchField.Location = new Point(496, 27);
+            cboSearchField.Name = "cboSearchField";
+            cboSearchField.Size = new Size(120, 28);
+            cboSearchField.TabIndex = 22;
+            // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(496, 27);
+            txtSearch.Location = new Point(626, 27);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(164, 27);
-            txtSearch.TabIndex = 22;
+            txtSearch.TabIndex = 27;
+            txtSearch.KeyPress += txtSearch_KeyPress;
             // 
             // btnQuery
             // 
-            btnQuery.Location = new Point(697, 27);
+            btnQuery.Location = new Point(800, 27);
             btnQuery.Name = "btnQuery";
             btnQuery.Size = new Size(94, 29);
             btnQuery.TabIndex = 23;
             btnQuery.Text = "查询";
             btnQuery.UseVisualStyleBackColor = true;
+            btnQuery.Click += btnQuery_Click;
             // 
             // btnReset
             // 
-            btnReset.Location = new Point(831, 25);
+            btnReset.Location = new Point(904, 25);
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(94, 29);
             btnReset.TabIndex = 24;
             btnReset.Text = "重置查询";
             btnReset.UseVisualStyleBackColor = true;
+            btnReset.Click += btnReset_Click;
             // 
             // btnSubmit
             // 
@@ -285,6 +299,7 @@ namespace CSStudy
             Controls.Add(btnSubmit);
             Controls.Add(btnReset);
             Controls.Add(btnQuery);
+            Controls.Add(cboSearchField);
             Controls.Add(txtSearch);
             Controls.Add(lstResult);
             Controls.Add(txtSuppRemark);
@@ -322,6 +337,7 @@ namespace CSStudy
         private TextBox txtSuppRemark;
         private ListBox lstResult;
         private TextBox txtSearch;
+        private ComboBox cboSearchField;
         private Button btnQuery;
         private Button btnReset;
         private Button btnSubmit;

@@ -38,6 +38,7 @@ namespace CSStudy
             cAddress = new DataGridViewTextBoxColumn();
             cRemark = new DataGridViewTextBoxColumn();
             txtSearch = new TextBox();
+            cboSearchField = new ComboBox();
             txtRemark = new TextBox();
             txtAddress = new TextBox();
             txtCName = new TextBox();
@@ -83,7 +84,7 @@ namespace CSStudy
             dgvCustomer.RowHeadersWidth = 51;
             dgvCustomer.Size = new Size(805, 308);
             dgvCustomer.TabIndex = 2;
-            dgvCustomer.DoubleClick += btnQuery_Click;
+            dgvCustomer.DoubleClick += dgvCustomer_DoubleClick;
             // 
             // cNo
             // 
@@ -133,12 +134,23 @@ namespace CSStudy
             cRemark.Name = "cRemark";
             cRemark.Width = 125;
             // 
+            // cboSearchField
+            // 
+            cboSearchField.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboSearchField.FormattingEnabled = true;
+            cboSearchField.Items.AddRange(new object[] { "客户编号", "客户名称", "联系人", "联系电话" });
+            cboSearchField.Location = new Point(436, 28);
+            cboSearchField.Name = "cboSearchField";
+            cboSearchField.Size = new Size(120, 28);
+            cboSearchField.TabIndex = 20;
+            // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(436, 28);
+            txtSearch.Location = new Point(566, 28);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(164, 27);
             txtSearch.TabIndex = 3;
+            txtSearch.KeyPress += txtSearch_KeyPress;
             // 
             // txtRemark
             // 
@@ -198,7 +210,7 @@ namespace CSStudy
             // 
             // btnQuery
             // 
-            btnQuery.Location = new Point(606, 26);
+            btnQuery.Location = new Point(736, 26);
             btnQuery.Name = "btnQuery";
             btnQuery.Size = new Size(94, 29);
             btnQuery.TabIndex = 11;
@@ -208,7 +220,7 @@ namespace CSStudy
             // 
             // btnReset
             // 
-            btnReset.Location = new Point(706, 26);
+            btnReset.Location = new Point(836, 26);
             btnReset.Name = "btnReset";
             btnReset.Size = new Size(94, 29);
             btnReset.TabIndex = 12;
@@ -299,6 +311,7 @@ namespace CSStudy
             Controls.Add(txtCName);
             Controls.Add(txtAddress);
             Controls.Add(txtRemark);
+            Controls.Add(cboSearchField);
             Controls.Add(txtSearch);
             Controls.Add(dgvCustomer);
             Controls.Add(btnSubmit);
@@ -316,6 +329,7 @@ namespace CSStudy
         private Button btnSubmit;
         private DataGridView dgvCustomer;
         private TextBox txtSearch;
+        private ComboBox cboSearchField;
         private TextBox txtRemark;
         private TextBox txtAddress;
         private TextBox txtCName;

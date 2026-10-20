@@ -252,7 +252,7 @@ namespace CSStudy
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(444, 12);
+            txtSearch.Location = new Point(570, 14);
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(185, 27);
             txtSearch.TabIndex = 17;
@@ -260,7 +260,7 @@ namespace CSStudy
             // 
             // btnSearch
             // 
-            btnSearch.Location = new Point(635, 12);
+            btnSearch.Location = new Point(761, 13);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(94, 29);
             btnSearch.TabIndex = 18;
@@ -270,7 +270,7 @@ namespace CSStudy
             // 
             // btnResetSearc
             // 
-            btnResetSearc.Location = new Point(735, 12);
+            btnResetSearc.Location = new Point(861, 13);
             btnResetSearc.Name = "btnResetSearc";
             btnResetSearc.Size = new Size(94, 29);
             btnResetSearc.TabIndex = 19;
@@ -283,7 +283,7 @@ namespace CSStudy
             cboSearchField.DropDownStyle = ComboBoxStyle.DropDownList;
             cboSearchField.FormattingEnabled = true;
             cboSearchField.Items.AddRange(new object[] { "工号", "姓名", "性别", "部门" });
-            cboSearchField.Location = new Point(310, 12);
+            cboSearchField.Location = new Point(444, 14);
             cboSearchField.Name = "cboSearchField";
             cboSearchField.Size = new Size(120, 28);
             cboSearchField.TabIndex = 20;
@@ -293,9 +293,9 @@ namespace CSStudy
             // 
             cboSearchValue.DropDownStyle = ComboBoxStyle.DropDownList;
             cboSearchValue.FormattingEnabled = true;
-            cboSearchValue.Location = new Point(444, 12);
+            cboSearchValue.Location = new Point(570, 14);
             cboSearchValue.Name = "cboSearchValue";
-            cboSearchValue.Size = new Size(185, 27);
+            cboSearchValue.Size = new Size(185, 28);
             cboSearchValue.TabIndex = 21;
             cboSearchValue.Visible = false;
             cboSearchValue.KeyDown += cboSearchValue_KeyDown;

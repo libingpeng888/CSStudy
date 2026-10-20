@@ -8,10 +8,13 @@ namespace CSStudy
     {
         public string CurrentUser { get; set; }
         private Guid _editGuid = Guid.Empty; //选中行主键uGUID；Empty=新增模式
+        private string _searchField = "物料编号";  // 当前查询字段
+        private string _searchKey = "";            // 当前查询关键字
 
         public MaterialForm()
         {
             InitializeComponent();
+            cboSearchField.SelectedIndex = 0; // 默认选中"物料编号"
             LoadData();
         }
 
@@ -29,13 +32,18 @@ namespace CSStudy
         #region 查询按钮
         private void btnQuery_Click(object sender, EventArgs e)
         {
-            string key = txtSearch.Text.Trim();
-            if (string.IsNullOrEmpty(key))
+            _searchField = cboSearchField.Text;
+            // 从当前可见的控件取值：下拉框（物料分类）或文本框（编号/名称/规格）
+            _searchKey = cboSearchValue.Visible
+                ? cboSearchValue.Text
+                : txtSearch.Text.Trim();
+
+            if (string.IsNullOrEmpty(_searchKey))
             {
                 LoadData();
                 return;
             }
-            dgvMaterial.DataSource = MaterialRepository.Search(key);
+            dgvMaterial.DataSource = MaterialRepository.Search(_searchField, _searchKey);
             if (dgvMaterial.Columns["uGUID"] != null)
                 dgvMaterial.Columns["uGUID"].Visible = false;
         }
@@ -45,9 +53,45 @@ namespace CSStudy
         private void btnReset_Click(object sender, EventArgs e)
         {
             txtSearch.Clear();
+            cboSearchValue.SelectedIndex = -1;
+            _searchKey = "";
+            _searchField = "物料编号";
+            cboSearchField.SelectedIndex = 0;
             LoadData();
         }
         #endregion
+
+        #region 查询字段联动：物料分类 → 受限下拉框；其余 → 文本框
+        private void cboSearchField_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // 先复位：显示文本框，隐藏并清空下拉框（防止残留值泄漏）
+            txtSearch.Visible = true;
+            cboSearchValue.Visible = false;
+            cboSearchValue.Items.Clear();
+            cboSearchValue.SelectedIndex = -1;
+
+            if (cboSearchField.Text == "物料分类")
+            {
+                // 复用 cboCategory 的分类列表，避免两处维护
+                foreach (var item in cboCategory.Items)
+                    cboSearchValue.Items.Add(item);
+                txtSearch.Visible = false;
+                cboSearchValue.Visible = true;
+            }
+        }
+        #endregion
+
+        private void txtSearch_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+                btnQuery_Click(null, null);
+        }
+
+        private void cboSearchValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                btnQuery_Click(null, null);
+        }
 
         #region 提交（新增/修改）
         private void btnSubmit_Click(object sender, EventArgs e)
