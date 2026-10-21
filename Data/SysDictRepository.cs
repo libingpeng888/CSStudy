@@ -42,6 +42,17 @@ namespace CSStudy
             }
         }
 
+        /// <summary>取某类型下所有启用的字典名称（用于填充下拉框）</summary>
+        public static List<string> GetNames(string dictType)
+        {
+            List<string> names = new List<string>();
+            foreach (DataRow row in GetByType(dictType).Rows)
+            {
+                names.Add(row["DictName"].ToString());
+            }
+            return names;
+        }
+
         /// <summary>按指定字段模糊搜索（字段名走白名单，防字段名注入）</summary>
         /// <param name="field">查询字段：字典类型 / 字典编码 / 字典名称</param>
         public static DataTable Search(string field, string keyword)

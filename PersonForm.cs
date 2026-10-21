@@ -17,18 +17,20 @@ namespace CSStudy
 
             //部门下拉从"数据字典"加载（字典类型：部门），不再写死
             cboDept.Items.Clear();
-            foreach (DataRow r in SysDictRepository.GetByType("部门").Rows)
-                cboDept.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+            //foreach (DataRow r in SysDictRepository.GetByType("部门").Rows)
+            //    cboDept.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+            foreach (string name in SysDictRepository.GetNames("部门"))
+                cboDept.Items.Add(name);
 
             //性别下拉从"数据字典"加载（字典类型：性别）
             cboGender.Items.Clear();
-            foreach (DataRow r in SysDictRepository.GetByType("性别").Rows)
-                cboGender.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+            foreach (string name in SysDictRepository.GetNames("性别"))
+                cboGender.Items.Add(name);
 
             //技能多选清单从"数据字典"加载（字典类型：技能）
             clbSkills.Items.Clear();
-            foreach (DataRow r in SysDictRepository.GetByType("技能").Rows)
-                clbSkills.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+            foreach (string name in SysDictRepository.GetNames("技能"))
+                clbSkills.Items.Add(name);
 
             cboSearchField.SelectedIndex = 0; // 默认"工号"→右侧显示文本框
 
@@ -191,16 +193,20 @@ namespace CSStudy
             if (cboSearchField.Text == "性别")
             {
                 // 直接读数据字典"性别"，与录入下拉 cboGender 解耦
-                foreach (DataRow r in SysDictRepository.GetByType("性别").Rows)
-                    cboSearchValue.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+                //foreach (DataRow r in SysDictRepository.GetByType("性别").Rows)
+                //    cboSearchValue.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+                foreach (string name in SysDictRepository.GetNames("性别"))
+                    cboSearchValue.Items.Add(name);
                 txtSearch.Visible = false;
                 cboSearchValue.Visible = true;
             }
             else if (cboSearchField.Text == "部门")
             {
                 // 直接读数据字典"部门"，与录入下拉 cboDept 解耦
-                foreach (DataRow r in SysDictRepository.GetByType("部门").Rows)
-                    cboSearchValue.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+                //foreach (DataRow r in SysDictRepository.GetByType("部门").Rows)
+                //    cboSearchValue.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+                foreach (string name in SysDictRepository.GetNames("部门"))
+                    cboSearchValue.Items.Add(name);
                 txtSearch.Visible = false;
                 cboSearchValue.Visible = true;
             }

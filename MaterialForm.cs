@@ -17,8 +17,10 @@ namespace CSStudy
 
             //物料分类下拉从"数据字典"加载（字典类型：物料分类），不再写死
             cboCategory.Items.Clear();
-            foreach (DataRow r in SysDictRepository.GetByType("物料分类").Rows)
-                cboCategory.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+            //foreach (DataRow r in SysDictRepository.GetByType("物料分类").Rows)
+            //    cboCategory.Items.Add(Convert.ToString(r["DictName"]) ?? "");
+            foreach (string name in SysDictRepository.GetNames("物料分类"))
+                cboCategory.Items.Add(name);
 
             //计量单位下拉从"计量单位"表加载（单一数据源：Unit 表），不再写死
             cboUnit.Items.Clear();
