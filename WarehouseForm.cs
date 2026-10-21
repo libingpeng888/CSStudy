@@ -79,6 +79,11 @@ namespace CSStudy
 
             if (_editGuid == Guid.Empty)
             {
+                if (WarehouseRepository.ExistsByNo(wNo))
+                {
+                    MessageBox.Show("该仓库编号已存在");
+                    return;
+                }
                 WarehouseRepository.Insert(wNo, wName, wLocation, wRemark, CurrentUser);
             }
             else

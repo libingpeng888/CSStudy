@@ -37,6 +37,7 @@ namespace CSStudy
                 case "仓库编号": col = "wNo"; break;
                 case "仓库名称": col = "wName"; break;
                 case "库位": col = "wLocation"; break;
+                case "备注": col = "wRemark"; break;
                 default: col = "wNo"; break;   // 非法值兜底，绝不直接拼接
             }
 
@@ -49,6 +50,16 @@ namespace CSStudy
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
                     da.Fill(dt);
                 return dt;
+            }
+        }
+        public static bool ExistsByNo(string wNo)
+        {
+            using (SqlConnection conn = Db.Open())
+            using (SqlCommand cmd = new SqlCommand(
+                "SELECT COUNT(1) FROM Warehouse WHERE wNo=@wNo", conn))
+            {
+                cmd.Parameters.AddWithValue("@wNo", wNo);
+                return (int)cmd.ExecuteScalar() > 0;
             }
         }
 

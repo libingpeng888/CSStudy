@@ -120,7 +120,7 @@ namespace CSStudy
             // 
             cboSearchField.DropDownStyle = ComboBoxStyle.DropDownList;
             cboSearchField.FormattingEnabled = true;
-            cboSearchField.Items.AddRange(new object[] { "仓库编号", "仓库名称", "库位" });
+            cboSearchField.Items.AddRange(new object[] { "仓库编号", "仓库名称", "库位","备注" });
             cboSearchField.Location = new Point(436, 28);
             cboSearchField.Name = "cboSearchField";
             cboSearchField.Size = new Size(120, 28);
