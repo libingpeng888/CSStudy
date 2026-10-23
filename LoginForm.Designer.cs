@@ -135,7 +135,7 @@ namespace CSStudy
             chkRememberPwd.Name = "chkRememberPwd";
             chkRememberPwd.Size = new Size(91, 24);
             chkRememberPwd.TabIndex = 8;
-            chkRememberPwd.Text = "记住密码";
+            chkRememberPwd.Text = "记住用户名";
             chkRememberPwd.UseVisualStyleBackColor = true;
             // 
             // LoginForm

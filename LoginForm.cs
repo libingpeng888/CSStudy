@@ -20,10 +20,10 @@ namespace CSStudy
             if (File.Exists(saveFile))
             {
                 string[] lines = File.ReadAllLines(saveFile);
-                if (lines.Length >= 2)
+                if (lines.Length >= 1)
                 {
                     txtUserName.Text = lines[0];
-                    txtPwd.Text = lines[1];
+                    //txtPwd.Text = lines[1];
                     chkRememberPwd.Checked = true;
                 }
             }
@@ -49,7 +49,7 @@ namespace CSStudy
             {
                 if (chkRememberPwd.Checked)
                 {
-                    File.WriteAllLines(saveFile, new string[] { user, pwd });
+                    File.WriteAllLines(saveFile, new string[] { user });
                 }
                 else
                 {

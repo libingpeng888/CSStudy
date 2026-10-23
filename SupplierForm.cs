@@ -13,6 +13,7 @@ namespace CSStudy
         public SupplierForm()
         {
             InitializeComponent();
+            ThemeHelper.Apply(this);
             cboSearchField.SelectedIndex = 0; // 默认选中"供应商编号"
             LoadData();
         }

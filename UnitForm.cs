@@ -14,6 +14,7 @@ namespace CSStudy
         public UnitForm()
         {
             InitializeComponent();
+            ThemeHelper.Apply(this);
             cboSearchField.SelectedIndex = 0; // 默认选中"单位编码"
             LoadData();
         }

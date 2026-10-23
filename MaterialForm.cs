@@ -14,6 +14,7 @@ namespace CSStudy
         public MaterialForm()
         {
             InitializeComponent();
+            ThemeHelper.Apply(this);
 
             //物料分类下拉从"数据字典"加载（字典类型：物料分类），不再写死
             cboCategory.Items.Clear();

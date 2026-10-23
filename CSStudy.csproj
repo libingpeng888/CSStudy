@@ -11,6 +11,9 @@
 
   <ItemGroup>
     <Content Include="icon.ico" />
+    <Content Include="main_bg.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

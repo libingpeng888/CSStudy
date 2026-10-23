@@ -14,6 +14,7 @@ namespace CSStudy
         public DictForm()
         {
             InitializeComponent();
+            ThemeHelper.Apply(this);
             cboSearchField.SelectedIndex = 0; // 默认选中"字典类型"
             LoadData();
         }

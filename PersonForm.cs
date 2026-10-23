@@ -14,6 +14,7 @@ namespace CSStudy
         public PersonForm()
         {
             InitializeComponent(); //初始化窗体控件
+            ThemeHelper.Apply(this);
 
             //部门下拉从"数据字典"加载（字典类型：部门），不再写死
             cboDept.Items.Clear();

@@ -11,7 +11,7 @@ namespace CSStudy
     {
         // 查询列集合（所有 SELECT 共用，改表结构时只改这一处）
         private const string SelectCols =
-            "uGUID, wNo, wName, wLocation, wRemark";
+            "uGUID, wNo, wName, wType, wLocation, wRemark";
 
         /// <summary>全量查询</summary>
         public static DataTable GetAll()

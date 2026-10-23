@@ -13,6 +13,7 @@ namespace CSStudy
         public CustomerForm()
         {
             InitializeComponent();
+            ThemeHelper.Apply(this);
             cboSearchField.SelectedIndex = 0; // 默认选中"客户编号"
             LoadData();
         }

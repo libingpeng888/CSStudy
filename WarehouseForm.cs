@@ -14,6 +14,7 @@ namespace CSStudy
         public WarehouseForm()
         {
             InitializeComponent();
+            ThemeHelper.Apply(this);
             cboSearchField.SelectedIndex = 0; // 默认选中"仓库编号"
             LoadData();
         }
