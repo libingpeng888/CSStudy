@@ -26,6 +26,9 @@ namespace CSStudy
         /// </summary>
         public static void Apply(Form form)
         {
+            // 关掉最小化/最大化按钮（MDI 子窗体内不需要）
+            form.MinimizeBox = false;
+            form.MaximizeBox = false;
             ApplyToControls(form.Controls);
         }
 

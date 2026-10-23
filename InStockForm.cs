@@ -24,6 +24,8 @@ namespace CSStudy
         public InStockForm()
         {
             InitializeComponent();
+            this.MinimizeBox = false;
+            this.MaximizeBox = false;
             LoadMaterials();       // 先给 ComboBox 列设好 DataSource
             InitDetailTable();     // 再绑明细表
             LoadWarehouses();

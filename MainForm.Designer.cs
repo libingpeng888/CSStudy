@@ -29,7 +29,6 @@ namespace CSStudy
         private void InitializeComponent()
         {
             menuStrip1 = new MenuStrip();
-            pnlTabs = new Panel();
             基础档案ToolStripMenuItem = new ToolStripMenuItem();
             人员信息登记ToolStripMenuItem = new ToolStripMenuItem();
             客户档案ToolStripMenuItem = new ToolStripMenuItem();
@@ -41,22 +40,22 @@ namespace CSStudy
             采购入库ToolStripMenuItem = new ToolStripMenuItem();
             应付账款ToolStripMenuItem = new ToolStripMenuItem();
             销售管理ToolStripMenuItem = new ToolStripMenuItem();
+            销售出库ToolStripMenuItem = new ToolStripMenuItem();
+            销售应收ToolStripMenuItem = new ToolStripMenuItem();
             库存管理ToolStripMenuItem = new ToolStripMenuItem();
             仓库档案ToolStripMenuItem = new ToolStripMenuItem();
+            坯布仓ToolStripMenuItem = new ToolStripMenuItem();
+            坯布入库查询ToolStripMenuItem = new ToolStripMenuItem();
+            坯布出库查询ToolStripMenuItem = new ToolStripMenuItem();
+            成品仓ToolStripMenuItem = new ToolStripMenuItem();
+            成品入库查询ToolStripMenuItem = new ToolStripMenuItem();
+            成品出库查询ToolStripMenuItem = new ToolStripMenuItem();
             系统ToolStripMenuItem = new ToolStripMenuItem();
             编码规则ToolStripMenuItem = new ToolStripMenuItem();
             修改密码ToolStripMenuItem = new ToolStripMenuItem();
             退出系统ToolStripMenuItem = new ToolStripMenuItem();
             statusStrip1 = new StatusStrip();
             lblUser = new ToolStripStatusLabel();
-            销售出库ToolStripMenuItem = new ToolStripMenuItem();
-            销售应收ToolStripMenuItem = new ToolStripMenuItem();
-            坯布仓ToolStripMenuItem = new ToolStripMenuItem();
-            成品仓ToolStripMenuItem = new ToolStripMenuItem();
-            坯布入库查询ToolStripMenuItem = new ToolStripMenuItem();
-            坯布出库查询ToolStripMenuItem = new ToolStripMenuItem();
-            成品入库查询ToolStripMenuItem = new ToolStripMenuItem();
-            成品出库查询ToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             statusStrip1.SuspendLayout();
             SuspendLayout();
@@ -70,15 +69,6 @@ namespace CSStudy
             menuStrip1.Size = new Size(800, 28);
             menuStrip1.TabIndex = 1;
             menuStrip1.Text = "menuStrip1";
-            // 
-            // pnlTabs
-            // 
-            pnlTabs.BackColor = Color.FromArgb(241, 245, 249);
-            pnlTabs.Dock = DockStyle.Top;
-            pnlTabs.Location = new Point(0, 28);
-            pnlTabs.Name = "pnlTabs";
-            pnlTabs.Size = new Size(800, 36);
-            pnlTabs.TabIndex = 3;
             // 
             // 基础档案ToolStripMenuItem
             // 
@@ -139,14 +129,14 @@ namespace CSStudy
             // 采购入库ToolStripMenuItem
             // 
             采购入库ToolStripMenuItem.Name = "采购入库ToolStripMenuItem";
-            采购入库ToolStripMenuItem.Size = new Size(224, 26);
+            采购入库ToolStripMenuItem.Size = new Size(152, 26);
             采购入库ToolStripMenuItem.Text = "采购入库";
             采购入库ToolStripMenuItem.Click += 采购入库ToolStripMenuItem_Click;
             // 
             // 应付账款ToolStripMenuItem
             // 
             应付账款ToolStripMenuItem.Name = "应付账款ToolStripMenuItem";
-            应付账款ToolStripMenuItem.Size = new Size(224, 26);
+            应付账款ToolStripMenuItem.Size = new Size(152, 26);
             应付账款ToolStripMenuItem.Text = "应付账款";
             应付账款ToolStripMenuItem.Click += 应付账款ToolStripMenuItem_Click;
             // 
@@ -156,6 +146,19 @@ namespace CSStudy
             销售管理ToolStripMenuItem.Name = "销售管理ToolStripMenuItem";
             销售管理ToolStripMenuItem.Size = new Size(83, 24);
             销售管理ToolStripMenuItem.Text = "销售管理";
+            // 
+            // 销售出库ToolStripMenuItem
+            // 
+            销售出库ToolStripMenuItem.Name = "销售出库ToolStripMenuItem";
+            销售出库ToolStripMenuItem.Size = new Size(152, 26);
+            销售出库ToolStripMenuItem.Text = "销售出库";
+            // 
+            // 销售应收ToolStripMenuItem
+            // 
+            销售应收ToolStripMenuItem.Name = "销售应收ToolStripMenuItem";
+            销售应收ToolStripMenuItem.Size = new Size(152, 26);
+            销售应收ToolStripMenuItem.Text = "应收账款";
+            销售应收ToolStripMenuItem.Click += 销售应收ToolStripMenuItem_Click;
             // 
             // 库存管理ToolStripMenuItem
             // 
@@ -170,6 +173,44 @@ namespace CSStudy
             仓库档案ToolStripMenuItem.Size = new Size(152, 26);
             仓库档案ToolStripMenuItem.Text = "仓库档案";
             仓库档案ToolStripMenuItem.Click += 仓库档案ToolStripMenuItem_Click;
+            // 
+            // 坯布仓ToolStripMenuItem
+            // 
+            坯布仓ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 坯布入库查询ToolStripMenuItem, 坯布出库查询ToolStripMenuItem });
+            坯布仓ToolStripMenuItem.Name = "坯布仓ToolStripMenuItem";
+            坯布仓ToolStripMenuItem.Size = new Size(152, 26);
+            坯布仓ToolStripMenuItem.Text = "坯布仓";
+            // 
+            // 坯布入库查询ToolStripMenuItem
+            // 
+            坯布入库查询ToolStripMenuItem.Name = "坯布入库查询ToolStripMenuItem";
+            坯布入库查询ToolStripMenuItem.Size = new Size(182, 26);
+            坯布入库查询ToolStripMenuItem.Text = "坯布入库查询";
+            // 
+            // 坯布出库查询ToolStripMenuItem
+            // 
+            坯布出库查询ToolStripMenuItem.Name = "坯布出库查询ToolStripMenuItem";
+            坯布出库查询ToolStripMenuItem.Size = new Size(182, 26);
+            坯布出库查询ToolStripMenuItem.Text = "坯布出库查询";
+            // 
+            // 成品仓ToolStripMenuItem
+            // 
+            成品仓ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 成品入库查询ToolStripMenuItem, 成品出库查询ToolStripMenuItem });
+            成品仓ToolStripMenuItem.Name = "成品仓ToolStripMenuItem";
+            成品仓ToolStripMenuItem.Size = new Size(152, 26);
+            成品仓ToolStripMenuItem.Text = "成品仓";
+            // 
+            // 成品入库查询ToolStripMenuItem
+            // 
+            成品入库查询ToolStripMenuItem.Name = "成品入库查询ToolStripMenuItem";
+            成品入库查询ToolStripMenuItem.Size = new Size(182, 26);
+            成品入库查询ToolStripMenuItem.Text = "成品入库查询";
+            // 
+            // 成品出库查询ToolStripMenuItem
+            // 
+            成品出库查询ToolStripMenuItem.Name = "成品出库查询ToolStripMenuItem";
+            成品出库查询ToolStripMenuItem.Size = new Size(182, 26);
+            成品出库查询ToolStripMenuItem.Text = "成品出库查询";
             // 
             // 系统ToolStripMenuItem
             // 
@@ -214,67 +255,17 @@ namespace CSStudy
             lblUser.Size = new Size(99, 20);
             lblUser.Text = "当前登录用户";
             // 
-            // 销售出库ToolStripMenuItem
-            // 
-            销售出库ToolStripMenuItem.Name = "销售出库ToolStripMenuItem";
-            销售出库ToolStripMenuItem.Size = new Size(224, 26);
-            销售出库ToolStripMenuItem.Text = "销售出库";
-            // 
-            // 销售应收ToolStripMenuItem
-            // 
-            销售应收ToolStripMenuItem.Name = "销售应收ToolStripMenuItem";
-            销售应收ToolStripMenuItem.Size = new Size(152, 26);
-            销售应收ToolStripMenuItem.Text = "应收账款";
-            销售应收ToolStripMenuItem.Click += 销售应收ToolStripMenuItem_Click;
-            // 
-            // 坯布仓ToolStripMenuItem
-            // 
-            坯布仓ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 坯布入库查询ToolStripMenuItem, 坯布出库查询ToolStripMenuItem });
-            坯布仓ToolStripMenuItem.Name = "坯布仓ToolStripMenuItem";
-            坯布仓ToolStripMenuItem.Size = new Size(224, 26);
-            坯布仓ToolStripMenuItem.Text = "坯布仓";
-            // 
-            // 成品仓ToolStripMenuItem
-            // 
-            成品仓ToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { 成品入库查询ToolStripMenuItem, 成品出库查询ToolStripMenuItem });
-            成品仓ToolStripMenuItem.Name = "成品仓ToolStripMenuItem";
-            成品仓ToolStripMenuItem.Size = new Size(224, 26);
-            成品仓ToolStripMenuItem.Text = "成品仓";
-            // 
-            // 坯布入库查询ToolStripMenuItem
-            // 
-            坯布入库查询ToolStripMenuItem.Name = "坯布入库查询ToolStripMenuItem";
-            坯布入库查询ToolStripMenuItem.Size = new Size(224, 26);
-            坯布入库查询ToolStripMenuItem.Text = "坯布入库查询";
-            // 
-            // 坯布出库查询ToolStripMenuItem
-            // 
-            坯布出库查询ToolStripMenuItem.Name = "坯布出库查询ToolStripMenuItem";
-            坯布出库查询ToolStripMenuItem.Size = new Size(224, 26);
-            坯布出库查询ToolStripMenuItem.Text = "坯布出库查询";
-            // 
-            // 成品入库查询ToolStripMenuItem
-            // 
-            成品入库查询ToolStripMenuItem.Name = "成品入库查询ToolStripMenuItem";
-            成品入库查询ToolStripMenuItem.Size = new Size(182, 26);
-            成品入库查询ToolStripMenuItem.Text = "成品入库查询";
-            // 
-            // 成品出库查询ToolStripMenuItem
-            // 
-            成品出库查询ToolStripMenuItem.Name = "成品出库查询ToolStripMenuItem";
-            成品出库查询ToolStripMenuItem.Size = new Size(182, 26);
-            成品出库查询ToolStripMenuItem.Text = "成品出库查询";
-            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
             Controls.Add(statusStrip1);
-            Controls.Add(pnlTabs);
             Controls.Add(menuStrip1);
             IsMdiContainer = true;
             MainMenuStrip = menuStrip1;
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "MainForm";
             Text = "管理系统";
             WindowState = FormWindowState.Maximized;
@@ -290,7 +281,6 @@ namespace CSStudy
         #endregion
 
         private MenuStrip menuStrip1;
-        private Panel pnlTabs;
         private ToolStripMenuItem 基础档案ToolStripMenuItem;
         private ToolStripMenuItem 人员信息登记ToolStripMenuItem;
         private ToolStripMenuItem 客户档案ToolStripMenuItem;

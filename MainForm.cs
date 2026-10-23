@@ -17,107 +17,13 @@ namespace CSStudy
         public string LoginUserName { get; set; }
         public MainForm()
         {
-            InitializeComponent();
-            this.MdiChildActivate += MainForm_MdiChildActivate;
+            InitializeComponent(); 
         }
         private void MainForm_Load(object sender, EventArgs e)
         {
             lblUser.Text = $"当前登录用户：【{LoginUserName}】";
         }
 
-        #region 标签栏维护
-        private void MainForm_MdiChildActivate(object sender, EventArgs e)
-        {
-            // 只改激活按钮的颜色，不重建控件（避免卡顿）
-            UpdateTabColors();
-        }
-
-        private void MainForm_MdiChildClosed(object sender, FormClosedEventArgs e)
-        {
-            RefreshTabs();
-        }
-
-        /// <summary>
-        /// 重建所有标签（只在子窗体打开/关闭时调用）
-        /// </summary>
-        private void RefreshTabs()
-        {
-            pnlTabs.SuspendLayout();
-            pnlTabs.Controls.Clear();
-            if (this.MdiChildren.Length == 0)
-            {
-                pnlTabs.ResumeLayout();
-                return;
-            }
-
-            int x = 8;
-            Form active = this.ActiveMdiChild;
-            foreach (Form child in this.MdiChildren)
-            {
-                bool isActive = (active == child);
-
-                Button btnTab = new Button();
-                btnTab.Text = child.Text;
-                btnTab.Font = new Font("微软雅黑", 9F);
-                btnTab.FlatStyle = FlatStyle.Flat;
-                btnTab.FlatAppearance.BorderSize = 0;
-                btnTab.Size = new Size(120, 28);
-                btnTab.Location = new Point(x, 4);
-                btnTab.Cursor = Cursors.Hand;
-                btnTab.Tag = child;
-                btnTab.BackColor = isActive ? Color.FromArgb(59, 130, 246) : Color.White;
-                btnTab.ForeColor = isActive ? Color.White : Color.FromArgb(51, 65, 85);
-                btnTab.Click += (s, args) => child.Activate();
-                pnlTabs.Controls.Add(btnTab);
-
-                Button btnClose = new Button();
-                btnClose.Text = "✕";
-                btnClose.Font = new Font("微软雅黑", 8F, FontStyle.Bold);
-                btnClose.FlatStyle = FlatStyle.Flat;
-                btnClose.FlatAppearance.BorderSize = 0;
-                btnClose.Size = new Size(24, 28);
-                btnClose.Location = new Point(x + 116, 4);
-                btnClose.Cursor = Cursors.Hand;
-                btnClose.Tag = child;
-                btnClose.BackColor = btnTab.BackColor;
-                btnClose.ForeColor = isActive ? Color.White : Color.FromArgb(148, 163, 184);
-                btnClose.Click += (s, args) => child.Close();
-                pnlTabs.Controls.Add(btnClose);
-
-                x += 148;
-            }
-            pnlTabs.ResumeLayout();
-        }
-
-        /// <summary>
-        /// 只更新按钮颜色（Activate 时调用，不重建控件）
-        /// </summary>
-        private void UpdateTabColors()
-        {
-            Form active = this.ActiveMdiChild;
-            if (active == null) return;
-
-            pnlTabs.SuspendLayout();
-            foreach (Control c in pnlTabs.Controls)
-            {
-                if (c is Button btn && btn.Tag is Form frm)
-                {
-                    bool isActive = (frm == active);
-                    btn.BackColor = isActive ? Color.FromArgb(59, 130, 246) : Color.White;
-                    btn.ForeColor = isActive ? Color.White : Color.FromArgb(51, 65, 85);
-
-                    // 配对的 Close 按钮也同步颜色
-                    int idx = pnlTabs.Controls.IndexOf(btn);
-                    if (idx + 1 < pnlTabs.Controls.Count && pnlTabs.Controls[idx + 1] is Button closeBtn)
-                    {
-                        closeBtn.BackColor = btn.BackColor;
-                        closeBtn.ForeColor = isActive ? Color.White : Color.FromArgb(148, 163, 184);
-                    }
-                }
-            }
-            pnlTabs.ResumeLayout();
-        }
-        #endregion
 
         /// <summary>
         /// 统一打开/激活 MDI 子窗体
@@ -138,10 +44,9 @@ namespace CSStudy
             T frm = new T();
             init?.Invoke(frm);
             frm.MdiParent = this;
+            frm.ControlBox = false;        // 干掉最小化/最大化/关闭三个按钮
             frm.WindowState = FormWindowState.Maximized;
-            frm.FormClosed += MainForm_MdiChildClosed;
             frm.Show();
-            RefreshTabs();
         }
 
         private void 人员信息登记ToolStripMenuItem_Click(object sender, EventArgs e)
